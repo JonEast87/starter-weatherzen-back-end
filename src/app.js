@@ -3,7 +3,7 @@ const cors = require('cors')
 
 const errorHandler = require('./errors/errorHandler')
 const notFound = require('./errors/notFound')
-// const observationRouter = require('./observations/observations.router')
+const observationRouter = require('./observations/observations.router')
 
 const app = express()
 
@@ -23,7 +23,7 @@ app.post('/observations', (req, res) => {
 	})
 })
 
-// app.use('/observations', observationRouter)
+app.use('/observations', observationRouter)
 app.use(notFound)
 app.use(errorHandler)
 
