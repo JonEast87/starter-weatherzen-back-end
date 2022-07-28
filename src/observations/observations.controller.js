@@ -1,5 +1,5 @@
 let nextId = 1
-
+const observations = []
 const validSkyConditions = [100, 101, 102, 103, 104, 106, 108, 109]
 
 function hasData(req, res, next) {
@@ -45,11 +45,20 @@ async function create(req, res) {
 	newObservation.created_at = now
 	newObservation.updated_at = now
 
+	observations.push(newObservation)
+
 	res.status(201).json({
 		data: newObservation,
 	})
 }
 
+async function list(req, res) {
+	res.json({
+		data: observations,
+	})
+}
+
 module.exports = {
 	create: [hasData, hasLatitude, hasLongitude, hasSkyCondition, create],
+	list,
 }
