@@ -3,14 +3,15 @@ const cors = require('cors')
 
 const errorHandler = require('./errors/errorHandler')
 const notFound = require('./errors/notFound')
-const observationRouter = require('./observations/observations.router')
+// const observationRouter = require('./observations/observations.router')
 
 const app = express()
 
 app.use(cors())
 app.use(express.json())
 
-/* repalcing this block
+// repalcing this block
+
 let nextId = 1
 app.post('/observations', (req, res) => {
 	const newObservation = req.body.data
@@ -21,9 +22,8 @@ app.post('/observations', (req, res) => {
 		data: newObservation,
 	})
 })
-*/
 
-app.use('/observations', observationRouter)
+// app.use('/observations', observationRouter)
 app.use(notFound)
 app.use(errorHandler)
 
