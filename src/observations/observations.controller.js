@@ -1,4 +1,5 @@
 const service = require('./observations.service')
+const asyncErrorBoundary = require('../errors/asyncErrorBoundary')
 
 // let nextId = 1
 const observations = []
@@ -40,17 +41,6 @@ function hasSkyCondition(req, res, next) {
 }
 
 async function create(req, res) {
-	// --- Connecting the database to the controller ---
-	/*
-  const newObservation = req.body.data
-
-	const now = new Date().toISOString()
-	newObservation.observation_id = nextId++
-	newObservation.created_at = now
-	newObservation.updated_at = now
-
-	observations.push(newObservation)
-*/
 	const newObservation = await service.create(req.body.data)
 
 	res.status(201).json({
@@ -65,6 +55,12 @@ async function list(req, res) {
 }
 
 module.exports = {
-	create: [hasData, hasLatitude, hasLongitude, hasSkyCondition, create],
+	create: [
+		hasData,
+		hasLatitude,
+		hasLongitude,
+		hasSkyCondition,
+		asyncErrorBoundary(create),
+	],
 	list,
 }
